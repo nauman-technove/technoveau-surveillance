@@ -4,19 +4,48 @@
 #
 # Run the container with `nx docker:run @technoveau/api -p 3000:3000`.
 #
-FROM docker.io/node:lts-alpine
-
-ENV HOST=0.0.0.0
-ENV PORT=3000
-
-
-WORKDIR /app
-
-COPY dist .
-
 # You can remove this install step if you build with `--bundle` option.
 # The bundled output will include external dependencies.
 
-RUN bun install
 
-CMD [ "node", "main.js" ]
+# ===========================
+# Stage 1: Builder
+# ===========================
+FROM oven/bun:latest AS builder
+
+WORKDIR /workspace
+
+# Copy full monorepo
+COPY . .
+
+# Install all dependencies (for build)
+RUN bun install --no-frozen-lockfile
+
+# Build the Nx NestJS API
+RUN bunx nx build umbrella-api
+
+# ===========================
+# Stage 2: Production
+# ===========================
+FROM oven/bun:latest AS production
+
+WORKDIR /app
+
+# Copy package.json and bun.lock (needed for Bun runtime)
+COPY package.json bun.lock ./
+
+# Copy node_modules from builder (already built)
+COPY --from=builder /workspace/node_modules ./node_modules
+
+# Copy compiled Nx build
+COPY --from=builder /workspace/apps/api/dist ./dist
+
+EXPOSE 3000
+
+CMD ["bun", "dist/main.js"]
+
+
+
+
+
+
