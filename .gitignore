@@ -8,6 +8,12 @@ out-tsc
 .env
 .env.*.local
 
+.vscode
+.vscode/
+
+# Nx cache
+.nx/
+
 # dependencies
 node_modules
 
