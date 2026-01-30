@@ -1,5 +1,5 @@
 {
-  "name": "@technoveau/api",
+  "name": "@technoveau/umbrella-api",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@technoveau/api:build",
+          "buildTarget": "@technoveau/umbrella-api:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@technoveau/api:build:development"
+            "buildTarget": "@technoveau/umbrella-api:build:development"
           },
           "production": {
-            "buildTarget": "@technoveau/api:build:production"
+            "buildTarget": "@technoveau/umbrella-api:build:production"
           }
         }
       },

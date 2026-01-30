@@ -4,7 +4,7 @@
   "private": true,
   "nx": {
     "implicitDependencies": [
-      "@technoveau/api"
+      "@technoveau/umbrella-api"
     ],
     "targets": {
       "e2e": {
@@ -17,8 +17,8 @@
           "passWithNoTests": true
         },
         "dependsOn": [
-          "@technoveau/api:build",
-          "@technoveau/api:serve"
+          "@technoveau/umbrella-api:build",
+          "@technoveau/umbrella-api:serve"
         ]
       }
     }
